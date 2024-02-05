@@ -1,9 +1,10 @@
 export type CountriesModel = {
   name: String;
-  code: String;
+  code: string;
   capital: String;
   emojiU: String;
   currency: String;
+  languages: [{name:String}];
 };
 
 export type CountriesModelResult = {

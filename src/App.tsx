@@ -1,10 +1,9 @@
 import { useQuery, gql } from "@apollo/client";
-import { Layout, List, Col, Row, Table } from "antd";
-import { CountriesTable } from "./models/Table";
+import { Layout, Table } from "antd";
 import { CountriesModelResult } from "./models/countries";
 import { useEffect, useState } from "react";
 import { HandleWidth } from "./utils/HandleWidth";
-const { Header, Footer, Content } = Layout;
+const { Header, Content } = Layout;
 const GetCountries = gql`
   query Query {
     countries {
@@ -13,6 +12,9 @@ const GetCountries = gql`
       emojiU
       currency
       code
+      languages {
+        name
+      }
     }
   }
 `;
@@ -42,6 +44,10 @@ function App() {
       title: "Currency",
       dataIndex: "currency",
     },
+    {
+      title: "Language",
+      dataIndex: "language",
+    },
   ];
 
   if (loading) {
@@ -51,14 +57,20 @@ function App() {
   const tableData = data?.countries.map((country, index) => {
     return {
       key: index,
-      flag: "icon",
+      flag: (
+        <img
+          alt={country.code}
+          src={`http://purecatamphetamine.github.io/country-flag-icons/3x2/${country.code.toUpperCase()}.svg`}
+          height={18}
+        />
+      ),
       name: country.name + " / " + country.code,
       capital: country.capital,
       currency: country.currency,
+      language: country.languages[0]?.name,
     };
   });
 
-  console.log(data);
   return (
     <Layout style={{ height: "100vh" }}>
       <Header>abc</Header>
@@ -68,7 +80,7 @@ function App() {
           columns={columns}
           dataSource={tableData}
           tableLayout={"auto"}
-          pagination={{ pageSize: pageSize }}
+          pagination={{ pageSize: pageSize, showSizeChanger: false }}
         />
       </Content>
     </Layout>
