@@ -1,3 +1,3 @@
-To start the application :
-    1 - npm install
-    2 - npm run dev
+  # Countries Application
+    
+  ## Website : https://umutcan-countriesapp.netlify.app/
