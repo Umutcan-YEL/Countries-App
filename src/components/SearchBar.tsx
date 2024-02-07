@@ -26,7 +26,7 @@ function SearchBar(props: SearchProps) {
       style={{ width: 200 }}
       options={CountrysName}
       onSelect={Search}
-      placeholder="Search for Country"
+      placeholder="Search a Country"
       filterOption={true}
       allowClear={true}
       onClear={clearFilter}
