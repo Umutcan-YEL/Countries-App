@@ -25,16 +25,29 @@ function App() {
   const { loading, error, data } = useQuery<CountriesModelResult>(GetCountries);
   const [filteredData, setFilteredData] = useState(data?.countries);
   const [pageSize, setPageSize] = useState(HandleWidth);
-  const [selectedRow, setSelectedRow] = useState<React.Key[]>([
-    HandleWidth() < 10 ? HandleWidth() - 1 : 9,
-  ]);
+  const [selectedRow, setSelectedRow] = useState<React.Key[]>([]);
+
+  const filteredDataLength = filteredData?.length;
 
   useEffect(() => {
+    if (filteredDataLength < 9 && filteredDataLength > 0) {
+      const lastIndex = filteredDataLength - 1;
+      setSelectedRow([lastIndex]);
+      console.log(filteredDataLength);
+    } else if (
+      filteredDataLength >= 9 &&
+      filteredDataLength < data?.countries?.length
+    ) {
+      setSelectedRow([HandleWidth() - 1]);
+      console.log(filteredDataLength);
+    } else if (filteredDataLength == data?.countries.length) {
+      setSelectedRow([]);
+    }
     onresize = () => {
       setPageSize(HandleWidth);
-      setSelectedRow([HandleWidth() < 10 ? HandleWidth() - 1 : 9]);
     };
-  }, []);
+  }, [filteredDataLength]);
+
   if (loading) {
     return <h1>Loading</h1>;
   }
