@@ -33,13 +33,8 @@ function App() {
     if (filteredDataLength < 9 && filteredDataLength > 0) {
       const lastIndex = filteredDataLength - 1;
       setSelectedRow([lastIndex]);
-      console.log(filteredDataLength);
-    } else if (
-      filteredDataLength >= 9 &&
-      filteredDataLength < data?.countries?.length
-    ) {
-      setSelectedRow([HandleWidth() - 1]);
-      console.log(filteredDataLength);
+    } else if (filteredDataLength >= 9) {
+      setSelectedRow([9]);
     } else if (filteredDataLength == data?.countries.length) {
       setSelectedRow([]);
     }
