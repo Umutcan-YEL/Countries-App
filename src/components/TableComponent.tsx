@@ -79,7 +79,9 @@ function TableComponent(props: TableProps) {
       dataSource={tableData}
       tableLayout={"auto"}
       pagination={{ pageSize: props.pageSize, showSizeChanger: false }}
-      size={props.pageSize < 12 ? "middle" : "large"}
+      size={
+        props.pageSize < 10 ? "small" : props.pageSize < 12 ? "middle" : "large"
+      }
     />
   );
 }

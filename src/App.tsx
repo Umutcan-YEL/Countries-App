@@ -63,7 +63,7 @@ function App() {
     <Layout style={{ height: "100vh" }}>
       <Header>
         <Row>
-          <Col span={10}></Col>
+          <Col xs={3} md={10}></Col>
           <Col span={8}>
             {" "}
             <SearchBar data={data} setFilteredData={setFilteredData} />{" "}
