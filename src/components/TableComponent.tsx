@@ -1,14 +1,8 @@
 import { Table } from "antd";
 import React from "react";
-import { CountriesModel, CountriesModelResult } from "../models/countries";
+import { TableProps } from "../models/Props";
 
-function TableComponent(props: {
-  pageSize: number;
-  data: CountriesModelResult | undefined;
-  filteredData: CountriesModel[] | undefined;
-  selectedRow: React.Key[] | undefined;
-  setSelectedRow: React.Dispatch<React.SetStateAction<React.Key[]>>;
-}) {
+function TableComponent(props: TableProps) {
   const columns = [
     {
       title: "Flag",

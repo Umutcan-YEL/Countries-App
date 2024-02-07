@@ -1,13 +1,7 @@
 import { AutoComplete } from "antd";
-import { CountriesModel, CountriesModelResult } from "../models/countries";
+import { SearchProps } from "../models/Props";
 
-function SearchBar(props: {
-  data: CountriesModelResult | undefined;
-  setFilteredData: React.Dispatch<
-    React.SetStateAction<CountriesModel[] | undefined>
-  >;
-  setSelectedRow: React.Dispatch<React.SetStateAction<React.Key[]>>;
-}) {
+function SearchBar(props: SearchProps) {
   const CountrysName = props.data?.countries.map((country) => {
     return { value: country.name };
   });

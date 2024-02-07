@@ -49,11 +49,19 @@ function App() {
   }, [filteredDataLength]);
 
   if (loading) {
-    return <h1>Loading</h1>;
+    return (
+      <div className="center">
+        <span className="loader"></span>
+      </div>
+    );
   }
 
   if (error) {
-    return <h1> There is an error when fetching dat </h1>;
+    return (
+      <div className="center">
+        <h1> There is an error when fetching data </h1>
+      </div>
+    );
   }
 
   return (
@@ -63,11 +71,7 @@ function App() {
           <Col span={10}></Col>
           <Col span={8}>
             {" "}
-            <SearchBar
-              data={data}
-              setFilteredData={setFilteredData}
-              setSelectedRow={setSelectedRow}
-            />{" "}
+            <SearchBar data={data} setFilteredData={setFilteredData} />{" "}
           </Col>
           <Col span={6}></Col>
         </Row>
