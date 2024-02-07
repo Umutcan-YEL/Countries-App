@@ -1,8 +1,10 @@
 import { useQuery, gql } from "@apollo/client";
-import { Layout, Table } from "antd";
+import { Col, Row, Layout } from "antd";
 import { CountriesModelResult } from "./models/countries";
 import { useEffect, useState } from "react";
-import { HandleWidth } from "./utils/HandleWidth";
+import { HandleWidth } from "./utils/HandleResize";
+import TableComponent from "./components/TableComponent";
+import SearchBar from "./components/SearchBar";
 const { Header, Content } = Layout;
 const GetCountries = gql`
   query Query {
@@ -21,66 +23,49 @@ const GetCountries = gql`
 
 function App() {
   const { loading, error, data } = useQuery<CountriesModelResult>(GetCountries);
-  const [pageSize, setPageSize] = useState(10);
+  const [filteredData, setFilteredData] = useState(data?.countries);
+  const [pageSize, setPageSize] = useState(HandleWidth);
+  const [selectedRow, setSelectedRow] = useState<React.Key[]>([
+    HandleWidth() < 10 ? HandleWidth() - 1 : 9,
+  ]);
 
   useEffect(() => {
-    setPageSize(HandleWidth);
+    onresize = () => {
+      setPageSize(HandleWidth);
+      setSelectedRow([HandleWidth() < 10 ? HandleWidth() - 1 : 9]);
+    };
   }, []);
-
-  const columns = [
-    {
-      title: "Flag",
-      dataIndex: "flag",
-    },
-    {
-      title: "Name",
-      dataIndex: "name",
-    },
-    {
-      title: "Capital",
-      dataIndex: "capital",
-    },
-    {
-      title: "Currency",
-      dataIndex: "currency",
-    },
-    {
-      title: "Language",
-      dataIndex: "language",
-    },
-  ];
-
   if (loading) {
     return <h1>Loading</h1>;
   }
 
-  const tableData = data?.countries.map((country, index) => {
-    return {
-      key: index,
-      flag: (
-        <img
-          alt={country.code}
-          src={`http://purecatamphetamine.github.io/country-flag-icons/3x2/${country.code.toUpperCase()}.svg`}
-          height={18}
-        />
-      ),
-      name: country.name + " / " + country.code,
-      capital: country.capital,
-      currency: country.currency,
-      language: country.languages[0]?.name,
-    };
-  });
+  if (error) {
+    return <h1> There is an error when fetching dat </h1>;
+  }
 
   return (
     <Layout style={{ height: "100vh" }}>
-      <Header>abc</Header>
+      <Header>
+        <Row>
+          <Col span={10}></Col>
+          <Col span={8}>
+            {" "}
+            <SearchBar
+              data={data}
+              setFilteredData={setFilteredData}
+              setSelectedRow={setSelectedRow}
+            />{" "}
+          </Col>
+          <Col span={6}></Col>
+        </Row>
+      </Header>
       <Content>
-        {" "}
-        <Table
-          columns={columns}
-          dataSource={tableData}
-          tableLayout={"auto"}
-          pagination={{ pageSize: pageSize, showSizeChanger: false }}
+        <TableComponent
+          data={data}
+          pageSize={pageSize}
+          filteredData={filteredData}
+          selectedRow={selectedRow}
+          setSelectedRow={setSelectedRow}
         />
       </Content>
     </Layout>

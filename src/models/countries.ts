@@ -1,5 +1,5 @@
 export type CountriesModel = {
-  name: String;
+  name: string;
   code: string;
   capital: String;
   emojiU: String;
